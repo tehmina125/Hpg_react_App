@@ -25,8 +25,8 @@ const BlogsDropdown = ({ blogs, isMobile }) => {
         >
           {blogs.map((blog) => (
             <NavLink
-              key={blog.id}
-              to={`/blogs/${blog.id}/${blog.slug}`}
+              key={blog.slug}
+              to={`/blogs/${blog.slug}`} // Use only slug
               className="block px-4 py-2 hover:bg-gray-200"
               onClick={() => isMobile && setDropdownOpen(false)}
             >

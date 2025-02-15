@@ -10,20 +10,20 @@ const stripHtmlTags = (html) => {
 };
 
 const SpecializeDetail = () => {
-  const { id, slug } = useParams();
+  const { slug } = useParams();
   const { specializes } = useSpecializes();
   const [specialize, setSpecialize] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const foundSpecialize = specializes.find((s) => s.id.toString() === id && s.slug === slug);
+    const foundSpecialize = specializes.find((s) => s.slug === slug);
 
     if (foundSpecialize) {
       setSpecialize(foundSpecialize);
       setLoading(false);
     } else {
-      axios.get(`https://www.hpgautorepair.com/api/home/${id}/specialize/${slug}`)
+      axios.get(`https://www.hpgautorepair.com/api/home/specialize/${slug}`)
         .then(response => {
           setSpecialize(response.data);
         })
@@ -32,7 +32,7 @@ const SpecializeDetail = () => {
         })
         .finally(() => setLoading(false));
     }
-  }, [id, slug, specializes]);
+  }, [slug, specializes]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="text-red-600 font-bold">Error: {error}</p>;
@@ -48,7 +48,6 @@ const SpecializeDetail = () => {
 
       <div className="flex flex-col md:flex-row mt-4 gap-8">
         
-        {/* Image Section */}
         <div className="w-full md:w-1/2 order-1 md:order-2">
           <img 
             src={imageUrl} 
@@ -57,7 +56,6 @@ const SpecializeDetail = () => {
           />
         </div>
 
-        {/* Description Section */}
         <div className="w-full md:w-1/2 text-justify order-2 md:order-1">
           {stripHtmlTags(specialize.description) || "No Description Available"}
         </div>

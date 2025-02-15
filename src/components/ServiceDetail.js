@@ -10,20 +10,20 @@ const stripHtmlTags = (html) => {
 };
 
 const ServiceDetail = () => {
-  const { id, slug } = useParams();
+  const { slug } = useParams(); // Remove id, use only slug
   const { services } = useServices();
   const [service, setService] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const foundService = services.find((s) => s.id.toString() === id && s.slug === slug);
+    const foundService = services.find((s) => s.slug === slug);
 
     if (foundService) {
       setService(foundService);
       setLoading(false);
     } else {
-      axios.get(`https://www.hpgautorepair.com/api/home/${id}/services/${slug}`)
+      axios.get(`https://www.hpgautorepair.com/api/home/services/${slug}`) 
         .then(response => {
           setService(response.data);
         })
@@ -32,7 +32,7 @@ const ServiceDetail = () => {
         })
         .finally(() => setLoading(false));
     }
-  }, [id, slug, services]);
+  }, [slug, services]); 
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;

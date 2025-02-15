@@ -25,8 +25,8 @@ const SpecializesDropdown = ({ specializes, isMobile }) => {
         >
           {specializes.map((item) => (
             <NavLink
-              key={item.id}
-              to={`/specializes/${item.id}/${item.slug}`}
+              key={item.slug}
+              to={`/specializes/${item.slug}`}
               className="block px-4 py-2 hover:bg-gray-200"
               onClick={() => isMobile && setDropdownOpen(false)}
             >

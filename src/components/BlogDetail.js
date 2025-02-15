@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useBlogs } from "../context/BlogContext"; 
+
 const stripHtmlTags = (html) => {
   if (!html) return "";
   const doc = new DOMParser().parseFromString(html, "text/html");
@@ -9,20 +10,20 @@ const stripHtmlTags = (html) => {
 };
 
 const BlogDetail = () => {
-  const { id, slug } = useParams();
+  const { slug } = useParams(); // Only use slug
   const { blogs } = useBlogs();
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const foundBlog = blogs.find((s) => s.id.toString() === id && s.slug === slug);
+    const foundBlog = blogs.find((b) => b.slug === slug); // Find blog by slug only
 
     if (foundBlog) {
       setBlog(foundBlog);
       setLoading(false);
     } else {
-      axios.get(`https://www.hpgautorepair.com/api/home/${id}/blogs/${slug}`)
+      axios.get(`https://www.hpgautorepair.com/api/home/blogs/${slug}`) // Updated API URL
         .then(response => {
           setBlog(response.data);
         })
@@ -31,7 +32,7 @@ const BlogDetail = () => {
         })
         .finally(() => setLoading(false));
     }
-  }, [id, slug, blogs]);
+  }, [slug, blogs]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;

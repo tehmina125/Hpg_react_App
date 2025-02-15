@@ -38,12 +38,13 @@ const Services = () => {
               </div>
 
               <h3 className="text-xl font-semibold text-center text-gray-800">
-                <Link 
-                  to={`/services/${service.id}/${service.slug}`} 
+              <Link 
+                  to={`/services/${service.slug}`}  // Remove ID
                   className="hover:underline text-red-600"
                 >
                   {service.title}
                 </Link>
+
               </h3>
 
             </div>
