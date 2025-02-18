@@ -13,7 +13,7 @@ const Footer = () => {
       <div className="container p-6 relative z-10">
         <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
           <div className="mb-6 md:mb-0 flex flex-col sm:items-start space-y-4">
-            <div className="flex justify-center sm:justify-start">
+            <div className="flex sm:justify-start">
               <img src="200.png" alt="Contact Icon" className="w-40 h-30 object-cover" />
             </div>
             <div className="text-center sm:text-left">

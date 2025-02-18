@@ -6,6 +6,7 @@ import { faWhatsapp, faYoutube, faFacebook, faInstagram, faTwitter } from "@fort
 import ServiceDropdown from "./ServiceDropdown";
 import SpecializesDropdown from "./SpecializesDropdown";
 import BlogsDropdown from "./BlogsDropdown";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -33,9 +34,12 @@ const Header = () => {
     <>
       <header className="bg-red-800 p-4 relative z-50">
         <div className="container mx-auto flex items-center justify-between">
-          <div className="flex items-center">
-            <img src="195.png" alt="Logo" className="h-12 mr-5" />
-          </div>
+        <div className="flex items-center">
+           <Link to="/">
+              <img src="195.png" alt="Logo" className="h-12 mr-5" />
+           </Link>
+        </div>
+
 
           <div className="flex flex-col md:items-start lg:items-center md:flex-row md:space-x-6 ml-auto">
             <div className="flex flex-col md:flex-row md:space-x-6 items-center text-center lg:text-left">
