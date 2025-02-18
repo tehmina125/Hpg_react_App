@@ -26,7 +26,7 @@ const ServiceDropdown = ({ services, isMobile }) => {
           {services.map((service) => (
             <NavLink
                 key={service.id}
-                to={`/services/${service.slug}`}  // Remove ID
+                to={`/services/${service.slug}`} 
                 className="block px-4 py-2 hover:bg-gray-200"
                 onClick={() => isMobile && setDropdownOpen(false)}
               >

@@ -11,36 +11,30 @@ const stripHtmlTags = (html) => {
 
 const SpecializeDetail = () => {
   const { slug } = useParams();
-  const { specializes } = useSpecializes();
+  const { specializes, loading } = useSpecializes();
   const [specialize, setSpecialize] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const foundSpecialize = specializes.find((s) => s.slug === slug);
 
     if (foundSpecialize) {
       setSpecialize(foundSpecialize);
-      setLoading(false);
     } else {
+      setSpecialize(null); 
       axios.get(`https://www.hpgautorepair.com/api/home/specialize/${slug}`)
         .then(response => {
-          setSpecialize(response.data);
+          setSpecialize(response.data); 
         })
         .catch(error => {
-          setError(error.response?.data?.error || "Specialization not found.");
-        })
-        .finally(() => setLoading(false));
+          console.error(error.response?.data?.error || "Specialization not found.");
+        });
     }
   }, [slug, specializes]);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p className="text-red-600 font-bold">Error: {error}</p>;
   if (!specialize) return <p>No specialization found.</p>;
 
-  const imageUrl = specialize.image 
-    ? specialize.image 
-    : "https://res.cloudinary.com/hpggarage/image/upload/hpg_production/Specialization";
+  const imageUrl = specialize.image || "https://res.cloudinary.com/hpggarage/image/upload/hpg_production/Specialization";
 
   return (
     <div className="container mx-auto p-4">

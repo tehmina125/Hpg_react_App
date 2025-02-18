@@ -10,37 +10,31 @@ const stripHtmlTags = (html) => {
 };
 
 const ServiceDetail = () => {
-  const { slug } = useParams(); // Remove id, use only slug
-  const { services } = useServices();
+  const { slug } = useParams(); 
+  const { services, loading } = useServices();
   const [service, setService] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const foundService = services.find((s) => s.slug === slug);
 
     if (foundService) {
       setService(foundService);
-      setLoading(false);
     } else {
-      axios.get(`https://www.hpgautorepair.com/api/home/services/${slug}`) 
+      setService(null); 
+      axios.get(`https://www.hpgautorepair.com/api/home/services/${slug}`)
         .then(response => {
-          setService(response.data);
+          setService(response.data); 
         })
         .catch(error => {
-          setError(error.response?.data?.error || "Service not found.");
-        })
-        .finally(() => setLoading(false));
+          console.error(error.response?.data?.error || "Service not found.");
+        });
     }
-  }, [slug, services]); 
+  }, [slug, services]);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
-  if (!service) return <p>No service found.</p>;
+  if (!service) return <p>No service found.</p>; 
 
-  const imageUrl = service.image 
-    ? service.image 
-    : "https://res.cloudinary.com/hpggarage/image/upload/hpg_production/Service";
+  const imageUrl = service.image || "https://res.cloudinary.com/hpggarage/image/upload/hpg_production/Service";
 
   return (
     <div className="container mx-auto p-4">

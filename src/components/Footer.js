@@ -6,9 +6,8 @@ import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 const Footer = () => {
   return (
     <footer className="relative flex flex-col items-center text-center text-white dark:bg-neutral-700 lg:text-left">
-      {/* Background Image with Dark Overlay */}
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('footer.png')" }}>
-        <div className="absolute inset-0 bg-black bg-opacity-60"></div> {/* Adjust opacity here */}
+        <div className="absolute inset-0 bg-black bg-opacity-60"></div> 
       </div>
 
       <div className="container p-6 relative z-10">
@@ -18,7 +17,6 @@ const Footer = () => {
               <img src="200.png" alt="Contact Icon" className="w-40 h-30 object-cover" />
             </div>
             <div className="text-center sm:text-left">
-              {/* Contact Section (Vertical Display) */}
               <div className="flex flex-col space-y-2">
                 {[...Array(5)].map((_, index) => (
                   <div key={index} className="flex items-center space-x-2">
@@ -58,7 +56,6 @@ const Footer = () => {
   Copyrights © 2021 - {new Date().getFullYear()} All Rights Reserved by 
   {/* <a href="https://www.hpgautorepair.com/" className="text-white no-underline ml-1"> */}
     <span className="text-white ml-1">HPG Auto Repair</span>
-  {/* </a> */}
 </div>
 
 

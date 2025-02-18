@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -8,7 +8,7 @@ const Specializes = () => {
   const sliderRef = useRef(null);
   const [isPaused, setIsPaused] = useState(false);
   const [specializes, setSpecializes] = useState([]);
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchSpecializes = async () => {
@@ -58,7 +58,6 @@ const Specializes = () => {
     setIsPaused(false);
   };
 
-  // Function to navigate to specialization detail page
   const goToDetailPage = (slug) => {
     navigate(`/specializes/${slug}`);
   };

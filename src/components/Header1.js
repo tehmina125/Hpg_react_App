@@ -39,11 +39,11 @@ const Header = () => {
 
           <div className="flex flex-col md:items-start lg:items-center md:flex-row md:space-x-6 ml-auto">
             <div className="flex flex-col md:flex-row md:space-x-6 items-center text-center lg:text-left">
-              <a href="tel:+1234567890" className="text-white flex items-center">
+              <a href="tel:+971529773887" className="text-white flex items-center">
                 <FontAwesomeIcon icon={faWhatsapp} className="text-lg md:text-xl lg:text-2xl text-green-500 mr-2" />
                 <span>+971 52 977 3887</span>
               </a>
-              <a href="tel:+0987654321" className="text-white flex items-center mt-2 md:mt-0">
+              <a href="tel:+971527829699" className="text-white flex items-center mt-2 md:mt-0">
                 <FontAwesomeIcon icon={faWhatsapp} className="text-lg md:text-xl lg:text-2xl text-green-500 mr-2" />
                 <span>+971 52 782 9699</span>
               </a>
@@ -65,7 +65,6 @@ const Header = () => {
             </div>
           </div>
 
-          {/* Navigation - Hidden for md to xl screens */}
           <nav className="hidden md:hidden xl:flex flex-col xl:flex-row xl:ml-10 w-full xl:w-auto mt-4 xl:mt-0">
             <ul className="flex items-center space-x-6">
               <li className="flex items-center">
@@ -92,14 +91,12 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Mobile Menu Toggle - Hidden on xl screens */}
       <div className="bg-red-900 p-3 flex justify-end xl:hidden">
         <button onClick={() => setMenuOpen(!menuOpen)} className="text-white text-2xl">
           <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} />
         </button>
       </div>
 
-      {/* Mobile Navigation */}
       {menuOpen && (
         <div className="bg-red-800 flex flex-col items-center text-center">
           <ul className="w-full flex flex-col items-center">

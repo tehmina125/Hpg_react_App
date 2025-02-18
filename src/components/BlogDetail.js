@@ -10,32 +10,28 @@ const stripHtmlTags = (html) => {
 };
 
 const BlogDetail = () => {
-  const { slug } = useParams(); // Only use slug
-  const { blogs } = useBlogs();
+  const { slug } = useParams();
+  const { blogs, loading } = useBlogs();
   const [blog, setBlog] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const foundBlog = blogs.find((b) => b.slug === slug); // Find blog by slug only
+    const foundBlog = blogs.find((b) => b.slug === slug);
 
     if (foundBlog) {
       setBlog(foundBlog);
-      setLoading(false);
     } else {
-      axios.get(`https://www.hpgautorepair.com/api/home/blogs/${slug}`) // Updated API URL
+      setBlog(null);
+      axios.get(`https://www.hpgautorepair.com/api/home/blogs/${slug}`)
         .then(response => {
           setBlog(response.data);
         })
         .catch(error => {
-          setError(error.response?.data?.error || "Blog not found.");
-        })
-        .finally(() => setLoading(false));
+          console.error(error.response?.data?.error || "Blog not found.");
+        });
     }
   }, [slug, blogs]);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
   if (!blog) return <p>No blog found.</p>;
 
   return (

@@ -6,7 +6,6 @@ const BlogContext = createContext();
 export const BlogProvider = ({ children }) => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -15,7 +14,6 @@ export const BlogProvider = ({ children }) => {
         setBlogs(response.data.blogs || []);
       } catch (err) {
         console.error("Error fetching blogs:", err);
-        setError("Failed to fetch blogs.");
       } finally {
         setLoading(false);
       }
@@ -25,7 +23,7 @@ export const BlogProvider = ({ children }) => {
   }, []);
 
   return (
-    <BlogContext.Provider value={{ blogs, loading, error }}>
+    <BlogContext.Provider value={{ blogs, loading }}>
       {children}
     </BlogContext.Provider>
   );
