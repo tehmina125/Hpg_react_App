@@ -39,14 +39,20 @@ const Header = () => {
 
           <div className="flex flex-col md:items-start lg:items-center md:flex-row md:space-x-6 ml-auto">
             <div className="flex flex-col md:flex-row md:space-x-6 items-center text-center lg:text-left">
-              <a href="tel:+971529773887" className="text-white flex items-center">
+            <a href="tel:+971529773887" className="text-white flex items-center">
+              <a href="https://wa.me/971529773887" target="_blank" rel="noopener noreferrer">
                 <FontAwesomeIcon icon={faWhatsapp} className="text-lg md:text-xl lg:text-2xl text-green-500 mr-2" />
-                <span>+971 52 977 3887</span>
               </a>
-              <a href="tel:+971527829699" className="text-white flex items-center mt-2 md:mt-0">
+              <span>+971 52 977 3887</span>
+            </a>
+
+            <a href="tel:+971527829699" className="text-white flex items-center mt-2 md:mt-0">
+              <a href="https://wa.me/971527829699" target="_blank" rel="noopener noreferrer">
                 <FontAwesomeIcon icon={faWhatsapp} className="text-lg md:text-xl lg:text-2xl text-green-500 mr-2" />
-                <span>+971 52 782 9699</span>
               </a>
+              <span>+971 52 782 9699</span>
+            </a>
+
             </div>
 
             <div className="flex flex-wrap justify-center md:justify-start lg:justify-center md:mt-0 mt-3 space-x-4">

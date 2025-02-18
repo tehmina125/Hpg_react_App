@@ -47,7 +47,7 @@ const AppointmentForm = () => {
             </div>
           </div>
 
-          <h1 className="text-xl font-bold text-red-800 text-center mt-4">
+          <h1 className="text-xl font-bold text-white text-center mt-4">
             Best Car Repairs and Maintenance in Dubai
           </h1>
 
