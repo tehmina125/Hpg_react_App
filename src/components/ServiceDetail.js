@@ -59,7 +59,7 @@ const ServiceDetail = () => {
 
   if (!service) return <p>No service found.</p>; 
 
-  const imageUrl = service.image || "https://res.cloudinary.com/hpggarage/image/upload/hpg_production/Service";
+  const imageUrl = service.image_url || service.image || "https://res.cloudinary.com/hpggarage/image/upload/hpg_production/Service";
 
   return (
     <div className="container mx-auto p-4">

@@ -59,7 +59,7 @@ const SpecializeDetail = () => {
 
   if (!specialize) return <p>No specialization found.</p>;
 
-  const imageUrl = specialize.image || "https://res.cloudinary.com/hpggarage/image/upload/hpg_production/Specialization";
+  const imageUrl = specialize.image || specialize.image_url || "https://via.placeholder.com/300";
 
   return (
     <div className="container mx-auto p-4">
@@ -71,7 +71,7 @@ const SpecializeDetail = () => {
           <img 
             src={imageUrl} 
             alt={specialize.title || "Specialization Image"} 
-            className="w-full md:w-3/4 lg:w-1/2 max-h-64 md:max-h-80 lg:max-h-96 rounded-lg shadow-lg object-cover"
+            className="w-full md:w-3/4 lg:w-1/2 max-h-64 md:max-h-80 lg:max-h-96 rounded-lg shadow-lg"
           />
         </div>
 
