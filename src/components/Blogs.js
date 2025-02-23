@@ -1,16 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
-  const [newBlog, setNewBlog] = useState({
-    title: "",
-    description: "",
-  });
+  const [newBlog, setNewBlog] = useState({ title: "", description: "" });
   const [editingId, setEditingId] = useState(null);
-  const [editingValue, setEditingValue] = useState({
-    title: "",
-    description: "",
-  });
+  const [editingValue, setEditingValue] = useState({ title: "", description: "" });
+
+  useEffect(() => {
+    const storedBlogs = JSON.parse(localStorage.getItem("blogs"));
+    if (storedBlogs) {
+      setBlogs(storedBlogs);
+    }
+  }, []);
+
+  const saveToLocalStorage = (updatedBlogs) => {
+    localStorage.setItem("blogs", JSON.stringify(updatedBlogs));
+  };
 
   const handleChange = (e) => {
     setNewBlog({ ...newBlog, [e.target.name]: e.target.value });
@@ -19,12 +24,16 @@ const Blogs = () => {
   const addBlog = () => {
     if (newBlog.title.trim() === "" || newBlog.description.trim() === "") return;
     const newEntry = { id: Date.now(), ...newBlog };
-    setBlogs([...blogs, newEntry]);
+    const updatedBlogs = [...blogs, newEntry];
+    setBlogs(updatedBlogs);
+    saveToLocalStorage(updatedBlogs);
     setNewBlog({ title: "", description: "" });
   };
 
   const deleteBlog = (id) => {
-    setBlogs(blogs.filter((blog) => blog.id !== id));
+    const updatedBlogs = blogs.filter((blog) => blog.id !== id);
+    setBlogs(updatedBlogs);
+    saveToLocalStorage(updatedBlogs);
   };
 
   const startEditing = (blog) => {
@@ -40,18 +49,17 @@ const Blogs = () => {
   };
 
   const updateBlog = (id) => {
-    setBlogs(
-      blogs.map((blog) =>
-        blog.id === id ? { ...blog, ...editingValue } : blog
-      )
+    const updatedBlogs = blogs.map((blog) =>
+      blog.id === id ? { ...blog, ...editingValue } : blog
     );
+    setBlogs(updatedBlogs);
+    saveToLocalStorage(updatedBlogs);
     setEditingId(null);
   };
 
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Manage Blogs</h1>
-
       <div className="flex flex-col gap-2 mb-4">
         <input
           type="text"

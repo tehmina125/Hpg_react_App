@@ -98,7 +98,7 @@ const Specializes = () => {
           <div
             key={index}
             className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-red-300 mt-2 mb-2 border border-black mx-1 rounded-lg overflow-hidden flex items-center justify-center cursor-pointer"
-            onClick={() => goToDetailPage(item.slug)} // Make clickable
+            onClick={() => goToDetailPage(item.slug)} 
           >
             <img
               src={item.image_url}

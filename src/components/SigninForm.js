@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import Header1 from "./Header1";
-import Footer from "./Footer";
 
 const SigninForm = () => {
   const { signIn } = useAuth();
@@ -15,7 +13,6 @@ const SigninForm = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header1 />
       <main className="flex-grow flex items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
           <h1 className="text-xl font-bold text-center text-gray-900 dark:text-white">
@@ -57,7 +54,6 @@ const SigninForm = () => {
           </form>
         </div>
       </main>
-      <Footer />
     </div>
   );
 };

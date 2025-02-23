@@ -1,12 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Specializes = () => {
   const [specializes, setSpecializes] = useState([]);
+
+  useEffect(() => {
+    const storedSpecializes = JSON.parse(localStorage.getItem("specializes"));
+    if (storedSpecializes) {
+      setSpecializes(storedSpecializes);
+    }
+  }, []);
+
+  const saveToLocalStorage = (updatedSpecializes) => {
+    localStorage.setItem("specializes", JSON.stringify(updatedSpecializes));
+  };
+
   const [newSpecialize, setNewSpecialize] = useState({
     title: "",
     description: "",
     image: null,
   });
+
   const [editingId, setEditingId] = useState(null);
   const [editingValue, setEditingValue] = useState({
     title: "",
@@ -29,12 +42,16 @@ const Specializes = () => {
   const addSpecialize = () => {
     if (newSpecialize.title.trim() === "" || newSpecialize.description.trim() === "" || !newSpecialize.image) return;
     const newEntry = { id: Date.now(), ...newSpecialize };
-    setSpecializes([...specializes, newEntry]);
+    const updatedSpecializes = [...specializes, newEntry];
+    setSpecializes(updatedSpecializes);
+    saveToLocalStorage(updatedSpecializes);
     setNewSpecialize({ title: "", description: "", image: null });
   };
 
   const deleteSpecialize = (id) => {
-    setSpecializes(specializes.filter((specialize) => specialize.id !== id));
+    const updatedSpecializes = specializes.filter((specialize) => specialize.id !== id);
+    setSpecializes(updatedSpecializes);
+    saveToLocalStorage(updatedSpecializes);
   };
 
   const startEditing = (specialize) => {
@@ -59,11 +76,11 @@ const Specializes = () => {
   };
 
   const updateSpecialize = (id) => {
-    setSpecializes(
-      specializes.map((specialize) =>
-        specialize.id === id ? { ...specialize, ...editingValue } : specialize
-      )
+    const updatedSpecializes = specializes.map((specialize) =>
+      specialize.id === id ? { ...specialize, ...editingValue } : specialize
     );
+    setSpecializes(updatedSpecializes);
+    saveToLocalStorage(updatedSpecializes);
     setEditingId(null);
   };
 
@@ -98,9 +115,9 @@ const Specializes = () => {
         )}
         <button
           onClick={addSpecialize}
-          className="bg-blue-500 text-white px-4 py-4 rounded hover:bg-blue-600 w-40"
+          className="bg-blue-500 text-white px-1 py-2 rounded hover:bg-blue-600 w-24"
         >
-          New Specialization
+          Add Specialization
         </button>
       </div>
 

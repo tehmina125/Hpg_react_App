@@ -1,12 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Services = () => {
   const [services, setServices] = useState([]);
+
+  // Load services from local storage on mount
+  useEffect(() => {
+    const storedServices = JSON.parse(localStorage.getItem("services"));
+    if (storedServices) {
+      setServices(storedServices);
+    }
+  }, []);
+
+  // Function to save to local storage
+  const saveToLocalStorage = (updatedServices) => {
+    localStorage.setItem("services", JSON.stringify(updatedServices));
+  };
+
   const [newService, setNewService] = useState({
     title: "",
     description: "",
     image: null,
   });
+
   const [editingId, setEditingId] = useState(null);
   const [editingValue, setEditingValue] = useState({
     title: "",
@@ -29,12 +44,16 @@ const Services = () => {
   const addService = () => {
     if (newService.title.trim() === "" || newService.description.trim() === "" || !newService.image) return;
     const newEntry = { id: Date.now(), ...newService };
-    setServices([...services, newEntry]);
+    const updatedServices = [...services, newEntry];
+    setServices(updatedServices);
+    saveToLocalStorage(updatedServices); // Save to localStorage
     setNewService({ title: "", description: "", image: null });
   };
 
   const deleteService = (id) => {
-    setServices(services.filter((service) => service.id !== id));
+    const updatedServices = services.filter((service) => service.id !== id);
+    setServices(updatedServices);
+    saveToLocalStorage(updatedServices); // Save to localStorage
   };
 
   const startEditing = (service) => {
@@ -59,11 +78,11 @@ const Services = () => {
   };
 
   const updateService = (id) => {
-    setServices(
-      services.map((service) =>
-        service.id === id ? { ...service, ...editingValue } : service
-      )
+    const updatedServices = services.map((service) =>
+      service.id === id ? { ...service, ...editingValue } : service
     );
+    setServices(updatedServices);
+    saveToLocalStorage(updatedServices); // Save to localStorage
     setEditingId(null);
   };
 

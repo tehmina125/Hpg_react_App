@@ -17,7 +17,7 @@ import { AuthProvider } from "./context/AuthContext";
 import AdminLayout from "./components/AdminLayout";
 import Services from "./components/Services";
 import Specializes from "./components/Specializes";
-import Blogs from "./components/Blogs"; 
+import Blogs from "./components/Blogs";
 
 function App() {
   const [hasServerError, setHasServerError] = useState(false);
@@ -37,30 +37,31 @@ function App() {
             <BlogProvider>
               <Routes>
                 <Route
-                  path="/"
+                  path="/*"
                   element={
                     <div className="flex flex-col min-h-screen">
                       <Header1 />
                       <main className="flex-grow">
-                        <Home />
+                        <Routes>
+                          <Route path="/" element={<Home />} />
+                          <Route path="/services/:slug" element={<ServiceDetail />} />
+                          <Route path="/specializes/:slug" element={<SpecializeDetail />} />
+                          <Route path="/blogs/:slug" element={<BlogDetail />} />
+                          <Route path="/appointment" element={<Appointment />} />
+                          <Route path="/signin" element={<SigninForm />} />
+                          <Route path="*" element={hasServerError ? <InternalError /> : <NotFound />} />
+                        </Routes>
                       </main>
                       <Footer />
                     </div>
                   }
                 />
-                <Route path="/services/:slug" element={<ServiceDetail />} />
-                <Route path="/specializes/:slug" element={<SpecializeDetail />} />
-                <Route path="/blogs/:slug" element={<BlogDetail />} />
-                <Route path="/appointment" element={<Appointment />} />
-                <Route path="/signin" element={<SigninForm />} />
 
                 <Route path="/admin/*" element={<AdminLayout />}>
                   <Route path="services" element={<Services />} />
                   <Route path="specializes" element={<Specializes />} />
                   <Route path="blogs" element={<Blogs />} />
                 </Route>
-
-                <Route path="*" element={hasServerError ? <InternalError /> : <NotFound />} />
               </Routes>
             </BlogProvider>
           </SpecializeProvider>
@@ -69,5 +70,6 @@ function App() {
     </Router>
   );
 }
+
 
 export default App;
