@@ -10,48 +10,63 @@ import { SpecializeProvider } from "./context/SpecializeContext";
 import BlogDetail from "./components/BlogDetail";
 import { BlogProvider } from "./context/BlogContext";
 import Appointment from "./pages/Appointment";
-import NotFound from "./pages/NotFound"; 
-import InternalError from "./pages/InternalError";  
+import NotFound from "./pages/NotFound";
+import InternalError from "./pages/InternalError";
+import SigninForm from "./components/SigninForm";
+import { AuthProvider } from "./context/AuthContext";
+import AdminLayout from "./components/AdminLayout";
+import Services from "./components/Services";
+import Specializes from "./components/Specializes";
+import Blogs from "./components/Blogs"; 
 
 function App() {
   const [hasServerError, setHasServerError] = useState(false);
 
   useEffect(() => {
-    const simulateServerError = false; 
-
+    const simulateServerError = false;
     if (simulateServerError) {
       setHasServerError(true);
     }
   }, []);
 
   return (
-    <ServiceProvider>
-      <SpecializeProvider>
-        <BlogProvider>
-          <div className="flex flex-col min-h-screen">
-            <Router>
-              <Header1 />
-              <main className="flex-grow">
-                <Routes>
-                  <Route path="/" element={<Home />} />
+    <Router>
+      <AuthProvider>
+        <ServiceProvider>
+          <SpecializeProvider>
+            <BlogProvider>
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <div className="flex flex-col min-h-screen">
+                      <Header1 />
+                      <main className="flex-grow">
+                        <Home />
+                      </main>
+                      <Footer />
+                    </div>
+                  }
+                />
+                <Route path="/services/:slug" element={<ServiceDetail />} />
+                <Route path="/specializes/:slug" element={<SpecializeDetail />} />
+                <Route path="/blogs/:slug" element={<BlogDetail />} />
+                <Route path="/appointment" element={<Appointment />} />
+                <Route path="/signin" element={<SigninForm />} />
 
-                  <Route path="/services/:slug" element={<ServiceDetail />} />
+                <Route path="/admin/*" element={<AdminLayout />}>
+                  <Route path="services" element={<Services />} />
+                  <Route path="specializes" element={<Specializes />} />
+                  <Route path="blogs" element={<Blogs />} />
+                </Route>
 
-                  <Route path="/specializes/:slug" element={<SpecializeDetail />} />
-
-                  <Route path="/blogs/:slug" element={<BlogDetail />} />
-
-                  <Route path="/appointment" element={<Appointment />} />
-
-                  <Route path="*" element={hasServerError ? <InternalError /> : <NotFound />} /> 
-                </Routes>
-              </main>
-              <Footer />
-            </Router>
-          </div>
-        </BlogProvider>
-      </SpecializeProvider>
-    </ServiceProvider>
+                <Route path="*" element={hasServerError ? <InternalError /> : <NotFound />} />
+              </Routes>
+            </BlogProvider>
+          </SpecializeProvider>
+        </ServiceProvider>
+      </AuthProvider>
+    </Router>
   );
 }
 
