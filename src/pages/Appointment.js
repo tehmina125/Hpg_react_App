@@ -22,7 +22,7 @@ const Appointment = () => {
           onSubmit={handleSubmit}
           className="w-full max-w-lg bg-transparent rounded-lg p-4 space-y-4 border border-gray-300"
         >
-          <h1 className="text-xl font-bold text-white  text-center mb-6">
+          <h1 className="text-xl font-bold text-black  text-center mb-6">
             Best Car Repairs and Maintenance in Dubai
           </h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

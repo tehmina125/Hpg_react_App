@@ -77,8 +77,10 @@ const Home = () => {
                       <br />
                       To request an appointment for your car, WhatsApp/Call on  
                       <span className="bg-red-900 text-white px-2 py-1 rounded">
-                        +971 52 977 3887 / +971 52 169 7565
-                      </span>
+                      <a href="tel:+971529773887" className="hover:underline">+971 52 977 3887</a> / 
+                      <a href="tel:+971521697565" className="hover:underline">+971 52 169 7565</a>
+                    </span>
+
                     </>
                   )}
                 </p>

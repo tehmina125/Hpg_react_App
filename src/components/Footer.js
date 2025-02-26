@@ -39,7 +39,7 @@ const Footer = () => {
           </div>
 
           <div className="mb-6 md:mb-0 flex flex-col sm:items-start items-center h-full justify-center">
-            <h3 className="mb-2 text-2xl text-red-800 font-medium uppercase">Work Hours</h3>
+            <h3 className="mb-2 text-2xl text-white font-medium uppercase">Work Hours</h3>
             <div className="flex items-center space-x-2">
               <FontAwesomeIcon icon={faClock} className="text-xl text-red-800" />
               <h4 className="mb-4">Monday to Saturday 8am to 8pm</h4>
@@ -54,7 +54,6 @@ const Footer = () => {
 
       <div className="w-full bg-black/50 p-4 text-center z-20 text-gray-500">
   Copyrights © 2021 - {new Date().getFullYear()} All Rights Reserved by 
-  {/* <a href="https://www.hpgautorepair.com/" className="text-white no-underline ml-1"> */}
     <span className="text-white ml-1">HPG Auto Repair</span>
 </div>
 

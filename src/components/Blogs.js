@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css"; 
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
@@ -19,6 +21,10 @@ const Blogs = () => {
 
   const handleChange = (e) => {
     setNewBlog({ ...newBlog, [e.target.name]: e.target.value });
+  };
+
+  const handleEditorChange = (content) => {
+    setNewBlog((prev) => ({ ...prev, description: content }));
   };
 
   const addBlog = () => {
@@ -44,8 +50,8 @@ const Blogs = () => {
     });
   };
 
-  const handleEditChange = (e) => {
-    setEditingValue({ ...editingValue, [e.target.name]: e.target.value });
+  const handleEditEditorChange = (content) => {
+    setEditingValue((prev) => ({ ...prev, description: content }));
   };
 
   const updateBlog = (id) => {
@@ -69,13 +75,48 @@ const Blogs = () => {
           placeholder="Enter blog title"
           className="border p-2 rounded w-full"
         />
-        <textarea
-          name="description"
+
+        <ReactQuill
           value={newBlog.description}
-          onChange={handleChange}
-          placeholder="Enter blog description"
-          className="border p-2 rounded w-full h-24 resize-none"
+          onChange={handleEditorChange}
+          modules={{
+            toolbar: [
+              [{ header: [1, 2, false] }],
+              ["bold", "italic", "underline"],
+              ["link", "image", "blockquote", "code-block"],
+              [{ list: "ordered" }, { list: "bullet" }],
+              [{ script: "sub" }, { script: "super" }],
+              [{ indent: "-1" }, { indent: "+1" }],
+              [{ direction: "rtl" }],
+              [{ size: ["small", false, "large", "huge"] }],
+              [{ color: [] }, { background: [] }],
+              [{ align: [] }],
+              ["clean"],
+              ["table"], 
+            ],
+          }}
+          formats={[
+            "header",
+            "bold",
+            "italic",
+            "underline",
+            "link",
+            "image",
+            "blockquote",
+            "code-block",
+            "list",
+            "bullet",
+            "script",
+            "indent",
+            "direction",
+            "size",
+            "color",
+            "background",
+            "align",
+            "table", 
+          ]}
         />
+
         <button
           onClick={addBlog}
           className="bg-blue-500 text-white px-1 py-2 rounded hover:bg-blue-600 w-24"
@@ -104,16 +145,32 @@ const Blogs = () => {
                           type="text"
                           name="title"
                           value={editingValue.title}
-                          onChange={handleEditChange}
+                          onChange={(e) =>
+                            setEditingValue({ ...editingValue, title: e.target.value })
+                          }
                           className="border p-1 rounded w-full"
                         />
                       </td>
                       <td className="border p-2">
-                        <textarea
-                          name="description"
+                        <ReactQuill
                           value={editingValue.description}
-                          onChange={handleEditChange}
-                          className="border p-1 rounded w-full h-24 resize-none"
+                          onChange={handleEditEditorChange}
+                          modules={{
+                            toolbar: [
+                              [{ header: [1, 2, false] }],
+                              ["bold", "italic", "underline"],
+                              ["link", "image", "blockquote", "code-block"],
+                              [{ list: "ordered" }, { list: "bullet" }],
+                              [{ script: "sub" }, { script: "super" }],
+                              [{ indent: "-1" }, { indent: "+1" }],
+                              [{ direction: "rtl" }],
+                              [{ size: ["small", false, "large", "huge"] }],
+                              [{ color: [] }, { background: [] }],
+                              [{ align: [] }],
+                              ["clean"],
+                              ["table"],
+                            ],
+                          }}
                         />
                       </td>
                       <td className="border p-2 flex gap-2">
@@ -128,7 +185,12 @@ const Blogs = () => {
                   ) : (
                     <>
                       <td className="border p-2">{blog.title}</td>
-                      <td className="border p-2">{blog.description}</td>
+                      <td className="border p-2 prose">
+                        <div
+                          className="prose max-w-full"
+                          dangerouslySetInnerHTML={{ __html: blog.description }}
+                        ></div>
+                      </td>
                       <td className="border p-2 flex gap-2">
                         <button
                           onClick={() => startEditing(blog)}
@@ -149,14 +211,22 @@ const Blogs = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="3" className="text-center p-4 text-gray-500">
-                  No blogs added yet.
-                </td>
+                <td colSpan="3" className="text-center p-4 text-gray-500">No blogs added yet.</td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
+
+      <style>
+        {`
+          .prose img {
+            max-width: 150px; /* Set max image width */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 8px; /* Optional: Rounded corners */
+          }
+        `}
+      </style>
     </div>
   );
 };

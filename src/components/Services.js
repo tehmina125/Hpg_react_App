@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const Services = () => {
   const [services, setServices] = useState([]);
 
-  // Load services from local storage on mount
   useEffect(() => {
     const storedServices = JSON.parse(localStorage.getItem("services"));
     if (storedServices) {
@@ -11,7 +12,6 @@ const Services = () => {
     }
   }, []);
 
-  // Function to save to local storage
   const saveToLocalStorage = (updatedServices) => {
     localStorage.setItem("services", JSON.stringify(updatedServices));
   };
@@ -19,41 +19,39 @@ const Services = () => {
   const [newService, setNewService] = useState({
     title: "",
     description: "",
-    image: null,
   });
 
   const [editingId, setEditingId] = useState(null);
   const [editingValue, setEditingValue] = useState({
     title: "",
     description: "",
-    image: null,
   });
 
   const handleChange = (e) => {
     setNewService({ ...newService, [e.target.name]: e.target.value });
   };
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setNewService({ ...newService, image: imageUrl });
-    }
+  const handleEditorChange = (content) => {
+    setNewService((prev) => ({ ...prev, description: content }));
+  };
+
+  const handleEditEditorChange = (content) => {
+    setEditingValue((prev) => ({ ...prev, description: content }));
   };
 
   const addService = () => {
-    if (newService.title.trim() === "" || newService.description.trim() === "" || !newService.image) return;
+    if (newService.title.trim() === "" || newService.description.trim() === "") return;
     const newEntry = { id: Date.now(), ...newService };
     const updatedServices = [...services, newEntry];
     setServices(updatedServices);
-    saveToLocalStorage(updatedServices); // Save to localStorage
-    setNewService({ title: "", description: "", image: null });
+    saveToLocalStorage(updatedServices);
+    setNewService({ title: "", description: "" });
   };
 
   const deleteService = (id) => {
     const updatedServices = services.filter((service) => service.id !== id);
     setServices(updatedServices);
-    saveToLocalStorage(updatedServices); // Save to localStorage
+    saveToLocalStorage(updatedServices);
   };
 
   const startEditing = (service) => {
@@ -61,20 +59,7 @@ const Services = () => {
     setEditingValue({
       title: service.title,
       description: service.description,
-      image: service.image,
     });
-  };
-
-  const handleEditChange = (e) => {
-    setEditingValue({ ...editingValue, [e.target.name]: e.target.value });
-  };
-
-  const handleEditImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setEditingValue({ ...editingValue, image: imageUrl });
-    }
   };
 
   const updateService = (id) => {
@@ -82,7 +67,7 @@ const Services = () => {
       service.id === id ? { ...service, ...editingValue } : service
     );
     setServices(updatedServices);
-    saveToLocalStorage(updatedServices); // Save to localStorage
+    saveToLocalStorage(updatedServices);
     setEditingId(null);
   };
 
@@ -99,22 +84,27 @@ const Services = () => {
           placeholder="Enter service title"
           className="border p-2 rounded w-full"
         />
-        <textarea
-          name="description"
+
+        <ReactQuill
           value={newService.description}
-          onChange={handleChange}
-          placeholder="Enter service description"
-          className="border p-2 rounded w-full h-24 resize-none"
+          onChange={handleEditorChange}
+          modules={{
+            toolbar: [
+              [{ header: [1, 2, false] }],
+              ["bold", "italic", "underline"],
+              ["link", "image", "blockquote", "code-block"],
+              [{ list: "ordered" }, { list: "bullet" }],
+              [{ script: "sub" }, { script: "super" }],
+              [{ indent: "-1" }, { indent: "+1" }],
+              [{ direction: "rtl" }],
+              [{ size: ["small", false, "large", "huge"] }],
+              [{ color: [] }, { background: [] }],
+              [{ align: [] }],
+              ["clean"],
+            ],
+          }}
         />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageUpload}
-          className="border p-2 rounded w-full"
-        />
-        {newService.image && (
-          <img src={newService.image} alt="Preview" className="w-32 h-32 object-cover rounded mt-2" />
-        )}
+
         <button
           onClick={addService}
           className="bg-blue-500 text-white px-1 py-2 rounded hover:bg-blue-600 w-24"
@@ -128,8 +118,7 @@ const Services = () => {
           <thead>
             <tr className="bg-gray-200">
               <th className="border p-2">Title</th>
-              <th className="border p-2">Description</th>
-              <th className="border p-2">Image</th>
+              <th className="border p-2 w-1/2">Description</th>
               <th className="border p-2">Actions</th>
             </tr>
           </thead>
@@ -144,28 +133,17 @@ const Services = () => {
                           type="text"
                           name="title"
                           value={editingValue.title}
-                          onChange={handleEditChange}
+                          onChange={(e) =>
+                            setEditingValue({ ...editingValue, title: e.target.value })
+                          }
                           className="border p-1 rounded w-full"
                         />
                       </td>
-                      <td className="border p-2">
-                        <textarea
-                          name="description"
+                      <td className="border p-2 w-1/2">
+                        <ReactQuill
                           value={editingValue.description}
-                          onChange={handleEditChange}
-                          className="border p-1 rounded w-full h-24 resize-none"
+                          onChange={handleEditEditorChange}
                         />
-                      </td>
-                      <td className="border p-2">
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={handleEditImageUpload}
-                          className="border p-1 rounded"
-                        />
-                        {editingValue.image && (
-                          <img src={editingValue.image} alt="Preview" className="w-20 h-20 object-cover rounded mt-2" />
-                        )}
                       </td>
                       <td className="border p-2 flex gap-2">
                         <button
@@ -179,23 +157,12 @@ const Services = () => {
                   ) : (
                     <>
                       <td className="border p-2">{service.title}</td>
-                      <td className="border p-2">{service.description}</td>
-                      <td className="border p-2">
-                        <img src={service.image} alt={service.title} className="w-20 h-20 object-cover rounded" />
+                      <td className="border p-2 w-1/2 prose">
+                        <div dangerouslySetInnerHTML={{ __html: service.description }}></div>
                       </td>
                       <td className="border p-2 flex gap-2">
-                        <button
-                          onClick={() => startEditing(service)}
-                          className="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => deleteService(service.id)}
-                          className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                        >
-                          Delete
-                        </button>
+                        <button onClick={() => startEditing(service)} className="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600">Edit</button>
+                        <button onClick={() => deleteService(service.id)} className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Delete</button>
                       </td>
                     </>
                   )}
@@ -203,9 +170,7 @@ const Services = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="4" className="text-center p-4 text-gray-500">
-                  No services added yet.
-                </td>
+                <td colSpan="3" className="text-center p-4 text-gray-500">No services added yet.</td>
               </tr>
             )}
           </tbody>
